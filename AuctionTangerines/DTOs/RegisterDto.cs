@@ -1,8 +1,14 @@
-﻿namespace AuctionTangerines.DTOs
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AuctionTangerines.DTOs
 {
 	public class RegisterDto
 	{
-		public string Email { get; set; }
-		public string Password { get; set; }
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Required]
+        public string Password { get; set; }
 	}
 }
