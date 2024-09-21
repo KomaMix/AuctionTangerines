@@ -9,27 +9,13 @@
     <div class="mb-3">
         <label asp-for="Email" class="form-label"></label>
         <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
     </div>
     <div class="mb-3">
         <label asp-for="Password" class="form-label"></label>
         <input asp-for="Password" type="password" class="form-control" />
-        <span asp-validation-for="Password" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <!-- Это выведет ошибки, если есть ошибки валидации модели -->
-        @if (ViewData.ModelState.ErrorCount > 0)
-        {
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-                    {
-                        <li>@error.ErrorMessage</li>
-                    }
-                </ul>
-            </div>
-        }
-        }
+        @await Html.PartialAsync("_ValidationSummaryPartial", ViewData.ModelState)
     </div>
     <button type="submit" class="btn btn-primary">Register</button>
 </form>

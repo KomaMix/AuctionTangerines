@@ -1,0 +1,16 @@
+﻿@model Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary
+
+@if (Model != null && Model.ErrorCount > 0)
+{
+    <div>
+        <ul>
+            @foreach (var entry in Model)
+            {
+                foreach (var error in entry.Value.Errors)
+                {
+                    <li class="text-danger">@error.ErrorMessage</li>
+                }
+            }
+        </ul>
+    </div>
+}
