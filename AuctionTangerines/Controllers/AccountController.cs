@@ -48,7 +48,9 @@ namespace AuctionTangerines.Controllers
 			if (!ModelState.IsValid)
 				return View(registerDto);
 
-			var user = new AppUser { UserName = registerDto.Email, Email = registerDto.Email };
+			var user = new AppUser { UserName = registerDto.Username, Email = registerDto.Email };
+			
+
 			var result = await _userManager.CreateAsync(user, registerDto.Password);
 			if (result.Succeeded)
 			{
