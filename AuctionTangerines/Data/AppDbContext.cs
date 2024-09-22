@@ -10,5 +10,10 @@ namespace AuctionTangerines.Data
 		: base(options)
 		{
 		}
+
+		public DbSet<Bet> Bets { get; set; }
+
+		public DbSet<Tangerine> Tangerines { get; set; }
+
 	}
 }
