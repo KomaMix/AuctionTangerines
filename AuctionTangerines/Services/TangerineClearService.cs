@@ -1,22 +1,18 @@
 ﻿using AuctionTangerines.Data;
-using AuctionTangerines.Enums;
 using AuctionTangerines.Models;
 using AuctionTangerines.Options;
 using Microsoft.Extensions.Options;
-using static System.Net.WebRequestMethods;
 
 namespace AuctionTangerines.Services
 {
-    public class TangerineGenerateService : BackgroundService
+    public class TangerineClearService : BackgroundService
     {
-        private readonly int _tangerineCount;
         private readonly TimeSpan _runTime;
         private readonly IServiceProvider _serviceProvider;
 
-        public TangerineGenerateService(IServiceProvider serviceProvider, IOptions<TangerineGenerateServiceOptions> options)
+        public TangerineClearService(IServiceProvider serviceProvider, IOptions<TangerineClearServiceOptions> options)
         {
             _serviceProvider = serviceProvider;
-            _tangerineCount = options.Value.TangerineCount;
             _runTime = options.Value.RunTime;
         }
 
@@ -41,32 +37,19 @@ namespace AuctionTangerines.Services
                     await Task.Delay(delay, stoppingToken);
                 }
 
-                await TangerinesGenerate();
+                await TangerinesClear();
             }
         }
 
-        private async Task TangerinesGenerate()
+        private async Task TangerinesClear()
         {
-            // Логика работы с мандаринами
-            List<Tangerine> tangerines = new List<Tangerine>();
-
-            for (int i = 0; i < _tangerineCount; i++)
-            {
-                tangerines.Add(new Tangerine
-                {
-                    Url = $"https://avatars.mds.yandex.net/i?id=b4fa01b573a6829ace045558f0d74cdefb58f5e0-10148308-images-thumbs&n=13"
-                });
-            }
-
-
             using (var scope = _serviceProvider.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                await dbContext.Tangerines.AddRangeAsync(tangerines);
-
                 await dbContext.SaveChangesAsync();
             }
         }
+        
     }
 }

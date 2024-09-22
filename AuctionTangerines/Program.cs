@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.Configure<TangerineServiceOptions>(options =>
+builder.Services.Configure<TangerineGenerateServiceOptions>(options =>
 {
     options.TangerineCount = 3; // Количество мандаринок
     options.RunTime = new TimeSpan(19, 49, 0); // Время запуска в 10:00

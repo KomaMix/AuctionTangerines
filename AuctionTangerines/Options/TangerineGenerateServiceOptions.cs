@@ -1,6 +1,6 @@
 ﻿namespace AuctionTangerines.Options
 {
-    public class TangerineServiceOptions
+    public class TangerineGenerateServiceOptions
     {
         public int TangerineCount { get; set; }
         public TimeSpan RunTime { get; set; }
