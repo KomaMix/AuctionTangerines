@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using AuctionTangerines.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AuctionTangerines.Models
 {
@@ -6,7 +7,7 @@ namespace AuctionTangerines.Models
     {
         public int Id { get; set; }
         public string Url { get; set; }
-        public string Status { get; set; }
+        public TangerineStatus Status { get; set; } = TangerineStatus.OnSale;
         public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
 
 

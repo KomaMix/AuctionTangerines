@@ -1,5 +1,7 @@
-﻿using AuctionTangerines.Options;
+﻿using AuctionTangerines.Models;
+using AuctionTangerines.Options;
 using Microsoft.Extensions.Options;
+using static System.Net.WebRequestMethods;
 
 namespace AuctionTangerines.Services
 {
@@ -40,7 +42,17 @@ namespace AuctionTangerines.Services
         private Task TangerinesGenerate()
         {
             // Логика работы с мандаринами
-            Console.WriteLine($"Создано {_tangerineCount} мандаринок.");
+            List<Tangerine> tangerines = new List<Tangerine>();
+
+            for (int i = 0; i < _tangerineCount; i++)
+            {
+                tangerines.Add(new Tangerine
+                {
+                    Url = $"https://avatars.mds.yandex.net/i?id=b4fa01b573a6829ace045558f0d74cdefb58f5e0-10148308-images-thumbs&n=13"
+                });
+            }
+
+
             return Task.CompletedTask;
         }
     }
