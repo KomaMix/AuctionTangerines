@@ -1,4 +1,6 @@
-﻿using AuctionTangerines.Models;
+﻿using AuctionTangerines.Data;
+using AuctionTangerines.Enums;
+using AuctionTangerines.Models;
 using AuctionTangerines.Options;
 using Microsoft.Extensions.Options;
 using static System.Net.WebRequestMethods;
@@ -9,12 +11,16 @@ namespace AuctionTangerines.Services
     {
         private readonly int _tangerineCount;
         private readonly TimeSpan _runTime;
+        private readonly IServiceProvider _serviceProvider;
 
-        public TangerineGenerateService(IOptions<TangerineServiceOptions> options)
+        public TangerineGenerateService(IServiceProvider serviceProvider, IOptions<TangerineServiceOptions> options)
         {
+            _serviceProvider = serviceProvider;
             _tangerineCount = options.Value.TangerineCount;
             _runTime = options.Value.RunTime;
         }
+
+
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -39,7 +45,7 @@ namespace AuctionTangerines.Services
             }
         }
 
-        private Task TangerinesGenerate()
+        private async Task TangerinesGenerate()
         {
             // Логика работы с мандаринами
             List<Tangerine> tangerines = new List<Tangerine>();
@@ -53,7 +59,14 @@ namespace AuctionTangerines.Services
             }
 
 
-            return Task.CompletedTask;
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+                await dbContext.Tangerines.AddRangeAsync(tangerines);
+
+                await dbContext.SaveChangesAsync();
+            }
         }
     }
 }
