@@ -1,9 +1,22 @@
 using AuctionTangerines.Data;
 using AuctionTangerines.Models;
+using AuctionTangerines.Options;
+using AuctionTangerines.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Services.Configure<TangerineServiceOptions>(options =>
+{
+    options.TangerineCount = 5; //  оличество мандаринок
+    options.RunTime = new TimeSpan(10, 0, 0); // ¬рем€ запуска в 10:00
+});
+
+// ƒобавл€ем фоновый сервис дл€ генерации мандаринок в определенное врем€
+builder.Services.AddHostedService<TangerineGenerateService>();
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
