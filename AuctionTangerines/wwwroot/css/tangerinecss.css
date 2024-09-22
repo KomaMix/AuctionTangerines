@@ -1,0 +1,9 @@
+﻿.tangerine-card {
+    margin: 15px;
+}
+
+.tangerine-image {
+    width: 250px;
+    height: 250px;
+    object-fit: cover; /* Чтобы картинки не искажались */
+}

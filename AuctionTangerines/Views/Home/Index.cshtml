@@ -1,9 +1,26 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model List<Tangerine>
+
+@{
+    ViewData["Title"] = "Tangerines";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <img src="https://avatars.mds.yandex.net/i?id=b4fa01b573a6829ace045558f0d74cdefb58f5e0-10148308-images-thumbs&n=13" />
+<div class="container">
+    <div class="row">
+        @foreach (var tangerine in Model)
+        {
+            <div class="col-md-3 tangerine-card">
+                <div class="card">
+                    <img src="@tangerine.Url" class="card-img-top tangerine-image" alt="Tangerine image">
+                    <div class="card-body">
+                        <h5 class="card-title">Мандаринка #@tangerine.Id</h5>
+                        <p class="card-text">
+                            <strong>Статус:</strong> @tangerine.Status <br />
+                            <strong>Цена:</strong> @tangerine.CostBuyout руб. <br />
+                            <strong>Создана:</strong> @tangerine.CreatedOn.ToShortDateString()
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
