@@ -10,12 +10,21 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<TangerineGenerateServiceOptions>(options =>
 {
-    options.TangerineCount = 3; // Количество мандаринок
-    options.RunTime = new TimeSpan(19, 49, 0); // Время запуска в 10:00
+    options.TangerineCount = 10; // Количество мандаринок
+    options.RunTime = new TimeSpan(10, 0, 0); // Время запуска в 10:00
 });
 
 // Добавляем фоновый сервис для генерации мандаринок в определенное время
 builder.Services.AddHostedService<TangerineGenerateService>();
+
+
+builder.Services.Configure<TangerineClearServiceOptions>(options =>
+{
+    options.RunTime = new TimeSpan(19, 0, 0); // Время запуска в 19:00
+});
+
+// Добавляем фоновый сервис для удаления мандаринок в определенное время
+builder.Services.AddHostedService<TangerineClearService>();
 
 
 // Add services to the container.

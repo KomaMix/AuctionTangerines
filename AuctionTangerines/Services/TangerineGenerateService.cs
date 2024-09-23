@@ -54,7 +54,7 @@ namespace AuctionTangerines.Services
             {
                 tangerines.Add(new Tangerine
                 {
-                    Url = $"https://avatars.mds.yandex.net/i?id=b4fa01b573a6829ace045558f0d74cdefb58f5e0-10148308-images-thumbs&n=13"
+                    Url = $"images/tangerine_image.webp"
                 });
             }
 
