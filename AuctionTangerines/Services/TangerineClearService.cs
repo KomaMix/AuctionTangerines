@@ -13,15 +13,18 @@ namespace AuctionTangerines.Services
         private readonly TimeSpan _runTime;
         private readonly IServiceProvider _serviceProvider;
         private readonly IEmailSenderService _emailSenderService;
+        private readonly EmailTemplateService _emailTemplateService;
 
         public TangerineClearService(
             IServiceProvider serviceProvider, 
             IOptions<TangerineClearServiceOptions> options,
-            IEmailSenderService emailSenderService)
+            IEmailSenderService emailSenderService,
+            EmailTemplateService emailTemplateService)
         {
             _serviceProvider = serviceProvider;
             _runTime = options.Value.RunTime;
             _emailSenderService = emailSenderService;
+            _emailTemplateService = emailTemplateService;
         }
 
 
@@ -68,10 +71,12 @@ namespace AuctionTangerines.Services
                         // Если есть владелец, меняем статус на Sold
                         tangerine.Status = TangerineStatus.Sold;
 
+                        var emailTemplate = _emailTemplateService.GeneratePurchaseTemplate(tangerine);
+
                         await _emailSenderService.SendEmailAsync(
                             toEmail: tangerine.UserBuyout.Email,
                             subject: "Вы купили мандаринку",
-                            body: $"Вы приобрели мандаринку {tangerine.Id} за {tangerine.CostBuyout}"
+                            body: emailTemplate
                         );
                     }
                     else

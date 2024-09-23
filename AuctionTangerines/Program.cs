@@ -35,6 +35,8 @@ builder.Services.AddSingleton<IEmailSenderService>(provider => new EmailSenderSe
     fromPassword: "vc6-2Wa-snF-9PH"
 ));
 
+builder.Services.AddSingleton<EmailTemplateService, EmailTemplateService>();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -56,6 +58,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 	options.LoginPath = "/Account/Login";
 	options.SlidingExpiration = true;
 });
+
 
 var app = builder.Build();
 

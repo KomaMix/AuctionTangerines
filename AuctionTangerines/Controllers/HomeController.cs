@@ -3,6 +3,7 @@ using AuctionTangerines.DTOs.Bet;
 using AuctionTangerines.Interfaces;
 using AuctionTangerines.Mappers;
 using AuctionTangerines.Models;
+using AuctionTangerines.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -19,18 +20,21 @@ namespace AuctionTangerines.Controllers
 		private readonly AppDbContext _dbContext;
 		private readonly UserManager<AppUser> _userManager;
 		private readonly IEmailSenderService _emailSenderService;
+		private readonly EmailTemplateService _emailTemplateService;
 
 
         public HomeController(
 			ILogger<HomeController> logger, 
 			AppDbContext dbContext,
 			UserManager<AppUser> userManager,
-            IEmailSenderService emailSenderService)
+            IEmailSenderService emailSenderService,
+			EmailTemplateService emailTemplateService)
 		{
 			_dbContext = dbContext;
 			_logger = logger;
 			_userManager = userManager;
 			_emailSenderService = emailSenderService;
+			_emailTemplateService = emailTemplateService;
 		}
 
 		public async Task<IActionResult> Index()
@@ -38,6 +42,7 @@ namespace AuctionTangerines.Controllers
 			// Получаем список мандаринок из базы данных
 			var tangerines = await _dbContext.Tangerines
 				.Where(t => t.Status == Enums.TangerineStatus.OnSale)
+				.Include(t => t.UserBuyout)
 				.ToListAsync();
 
 			// Передаем список в представление
@@ -45,6 +50,7 @@ namespace AuctionTangerines.Controllers
 		}
 
 		[HttpPost]
+		[Authorize]
 		public async Task<IActionResult> CreateBet(CreateBetDto createBet)
 		{
 			var tangerine = await _dbContext.Tangerines
@@ -72,10 +78,12 @@ namespace AuctionTangerines.Controllers
                     return View();
                 } else
 				{
+					var emailTemplate = _emailTemplateService.GenerateBetOvertakenTemplate(tangerine, createBet.Cost);
+
                     _emailSenderService?.SendEmailAsync(
                     toEmail: tangerine.UserBuyout.Email,
                     subject: "Перекрытие ставки",
-                    body: $"Вашу ставку перебили на {createBet.Cost - tangerine.CostBuyout}"
+                    body: emailTemplate
                 );
                 }
             }
@@ -83,6 +91,8 @@ namespace AuctionTangerines.Controllers
             tangerine.UserBuyoutId = curUser.Id;
             // tangerine.UserBuyout = curUser; нужно ли
             tangerine.CostBuyout = createBet.Cost;
+
+			tangerine.TimeBuyout = DateTime.Now;
 
 			var bet = createBet.ToBetFromCreateBetDto(curUser.Id);
 
