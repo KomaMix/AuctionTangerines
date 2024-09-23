@@ -15,10 +15,10 @@
                         <h5 class="card-title">Мандаринка #@tangerine.Id</h5>
                         <p class="card-text">
                             <strong>Статус:</strong> @tangerine.Status <br />
-                            <strong>Создана:</strong> @tangerine.CreatedOn.ToShortDateString() <br />
+                            <strong>Время размещения:</strong> @tangerine.CreatedOn.ToShortTimeString() <br />
                             <strong>Текущий получатель:</strong> @tangerine.UserBuyout?.UserName <br />
-                            <strong>Дата покупки:</strong> @tangerine.TimeBuyout?.ToShortDateString() <br />
-                            <strong>Цена:</strong> @tangerine.CostBuyout <br />
+                            <strong>Время последней ставки:</strong> @tangerine.TimeBuyout?.ToShortTimeString() <br />
+                            <strong>Цена последней ставки:</strong> @tangerine.CostBuyout <br />
                         </p>
 
                         @* Кнопка для ставки *@
