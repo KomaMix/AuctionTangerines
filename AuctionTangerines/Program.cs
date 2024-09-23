@@ -1,4 +1,5 @@
 using AuctionTangerines.Data;
+using AuctionTangerines.Interfaces;
 using AuctionTangerines.Models;
 using AuctionTangerines.Options;
 using AuctionTangerines.Services;
@@ -26,6 +27,13 @@ builder.Services.Configure<TangerineClearServiceOptions>(options =>
 // Добавляем фоновый сервис для удаления мандаринок в определенное время
 builder.Services.AddHostedService<TangerineClearService>();
 
+
+builder.Services.AddSingleton<IEmailSenderService>(provider => new EmailSenderService(
+    smtpServer: "smtp.office365.com",
+    smtpPort: 587,
+    fromEmail: "vitacoresendler@outlook.com",
+    fromPassword: "vc6-2Wa-snF-9PH"
+));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
