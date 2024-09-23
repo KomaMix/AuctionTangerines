@@ -1,11 +1,11 @@
-﻿using AuctionTangerines.DTOs;
+﻿using AuctionTangerines.DTOs.Account;
 using AuctionTangerines.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuctionTangerines.Controllers
 {
-	public class AccountController : Controller
+    public class AccountController : Controller
 	{
 		private readonly UserManager<AppUser> _userManager;
 		private readonly SignInManager<AppUser> _signInManager;
