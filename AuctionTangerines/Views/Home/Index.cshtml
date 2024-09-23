@@ -21,37 +21,46 @@
                             <strong>Цена последней ставки:</strong> @tangerine.CostBuyout <br />
                         </p>
 
-                        @* Кнопка для ставки *@
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#betModal-@tangerine.Id">Сделать ставку</button>
+                        @* Отображаем кнопку только если пользователь авторизован *@
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#betModal-@tangerine.Id">Сделать ставку</button>
+                        }
+                        else
+                        {
+                            <p class="text-muted">Только зарегистрированные пользователи могут делать ставки.</p>
+                        }
                     </div>
                 </div>
             </div>
 
-            @* Модальное окно для формы ставки *@
-            <div class="modal fade" id="betModal-@tangerine.Id" tabindex="-1" aria-labelledby="betModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="betModalLabel">Ставка на мандаринку #@tangerine.Id</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form method="post" asp-action="CreateBet" asp-controller="Home">
-                                <div class="mb-3">
-                                    <label for="cost" class="form-label">Сумма ставки</label>
-                                    <input type="number" class="form-control" id="cost" name="Cost" step="0.01" required>
-                                </div>
-                                <input type="hidden" name="TangerineId" value="@tangerine.Id" />
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                                    <button type="submit" class="btn btn-primary">Сделать ставку</button>
-                                </div>
-                            </form>
+            @* Модальное окно для формы ставки, показывается только авторизованным *@
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="modal fade" id="betModal-@tangerine.Id" tabindex="-1" aria-labelledby="betModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="betModalLabel">Ставка на мандаринку #@tangerine.Id</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="post" asp-action="CreateBet" asp-controller="Home">
+                                    <div class="mb-3">
+                                        <label for="cost" class="form-label">Сумма ставки</label>
+                                        <input type="number" class="form-control" id="cost" name="Cost" step="0.01" required>
+                                    </div>
+                                    <input type="hidden" name="TangerineId" value="@tangerine.Id" />
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                                        <button type="submit" class="btn btn-primary">Сделать ставку</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            }
         }
     </div>
 </div>
-
