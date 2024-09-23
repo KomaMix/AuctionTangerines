@@ -8,7 +8,7 @@ namespace AuctionTangerines.Models
         public int Id { get; set; }
         public string Url { get; set; }
         public TangerineStatus Status { get; set; } = TangerineStatus.OnSale;
-        public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedOn { get; set; } = DateTime.Now;
 
 
         [Column(TypeName = "decimal(18,2)")]

@@ -9,7 +9,7 @@ namespace AuctionTangerines.Models
 
         [Column(TypeName = "decimal(18,2)")]
         public decimal Cost { get; set; }
-        public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedOn { get; set; } = DateTime.Now;
 
         // Внешний ключ на Tangerine
         public int TangerineId { get; set; }
