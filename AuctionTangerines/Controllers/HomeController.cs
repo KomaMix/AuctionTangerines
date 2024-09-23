@@ -1,4 +1,5 @@
 using AuctionTangerines.Data;
+using AuctionTangerines.DTOs.Bet;
 using AuctionTangerines.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,13 +22,20 @@ namespace AuctionTangerines.Controllers
 		public async Task<IActionResult> Index()
 		{
             // Получаем список мандаринок из базы данных
-            var tangerines = await _dbContext.Tangerines.ToListAsync();
+            var tangerines = await _dbContext.Tangerines
+				.Where(t => t.Status == Enums.TangerineStatus.OnSale)
+				.ToListAsync();
 
             // Передаем список в представление
             return View(tangerines);
         }
 
-		public IActionResult Privacy()
+        public async Task<IActionResult> CreateBet(CreateBetDto createBet)
+		{
+			return RedirectToAction("Index");
+		}
+
+        public IActionResult Privacy()
 		{
 			return View();
 		}
