@@ -1,5 +1,6 @@
 using AuctionTangerines.Data;
 using AuctionTangerines.DTOs.Bet;
+using AuctionTangerines.DTOs.Tangerine;
 using AuctionTangerines.Interfaces;
 using AuctionTangerines.Mappers;
 using AuctionTangerines.Models;
@@ -39,15 +40,23 @@ namespace AuctionTangerines.Controllers
 
 		public async Task<IActionResult> Index()
 		{
-			// Получаем список мандаринок из базы данных
-			var tangerines = await _dbContext.Tangerines
-				.Where(t => t.Status == Enums.TangerineStatus.OnSale)
-				.Include(t => t.UserBuyout)
-				.ToListAsync();
+            var tangerines = await _dbContext.Tangerines
+        .Where(t => t.Status == Enums.TangerineStatus.OnSale)
+        .Include(t => t.UserBuyout)
+        .Select(t => new TangerineDto
+        {
+            Id = t.Id,
+			Url = t.Url,
+			CreatedOn = t.CreatedOn,
+            Status = t.Status.ToString(),
+			TimeBuyout = t.TimeBuyout,
+            UserBuyoutName = t.UserBuyout.UserName,  // Только безопасные данные
+            CostBuyout = t.CostBuyout
+        })
+        .ToListAsync();
 
-			// Передаем список в представление
-			return View(tangerines);
-		}
+            return View(tangerines);
+        }
 
 		[HttpPost]
 		[Authorize]

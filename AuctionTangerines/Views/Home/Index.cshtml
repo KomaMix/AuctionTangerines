@@ -1,4 +1,4 @@
-﻿@model List<Tangerine>
+﻿@model List<TangerineDto>
 
 @{
     ViewData["Title"] = "Tangerines";
@@ -16,7 +16,7 @@
                         <p class="card-text">
                             <strong>Статус:</strong> @tangerine.Status <br />
                             <strong>Время размещения:</strong> @tangerine.CreatedOn.ToShortTimeString() <br />
-                            <strong>Текущий получатель:</strong> @tangerine.UserBuyout?.UserName <br />
+                            <strong>Текущий получатель:</strong> @tangerine.UserBuyoutName <br />
                             <strong>Время последней ставки:</strong> @tangerine.TimeBuyout?.ToShortTimeString() <br />
                             <strong>Цена последней ставки:</strong> @tangerine.CostBuyout <br />
                         </p>
